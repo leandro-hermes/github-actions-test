@@ -42,7 +42,9 @@ jobs:
           token: '${{ secrets.GITHUB_TOKEN }}'
 
       - name: Version
-        run: npm version patch
+        run: |
+        npm version patch
+        git push
 
       - name: Build
         run: npm run prod

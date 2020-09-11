@@ -49,10 +49,10 @@ jobs:
       - name: Build
         run: |
           npm run prod
-          zip -r release.zip dist/test
+          cd dist/test
 
       - uses: actions/upload-artifact@v2
         with:
           name: release
-          path: release.zip
+          path: .
 

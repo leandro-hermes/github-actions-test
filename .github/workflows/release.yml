@@ -43,8 +43,8 @@ jobs:
 
       - name: Version
         run: |
-        npm version patch
-        git push
+          npm version patch
+          git push
 
       - name: Build
         run: npm run prod

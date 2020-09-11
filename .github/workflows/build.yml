@@ -47,5 +47,12 @@ jobs:
           git push
 
       - name: Build
-        run: npm run prod
+        run: |
+          npm run prod
+          zip -r release.zip dist/test
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: release
+          path: release.zip
 

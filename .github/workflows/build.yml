@@ -44,7 +44,7 @@ jobs:
       - name: Version
         run: |
           npm version patch
-          git push
+          git push --follow-tags
 
       - name: Build
         run: |

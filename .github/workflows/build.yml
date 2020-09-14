@@ -28,29 +28,27 @@ jobs:
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
+      - uses: CultureHQ/actions-yarn@v1.0.1
+        with:
+          args: install
 
-      - name: Install
-        run: npm install
-
-      # publish to a branch in current repo using GITHUB_TOKEN and other default settings
-      - uses: oleksiyrudenko/gha-git-credentials@v1
+      - name: Bump version
+        uses: oleksiyrudenko/gha-git-credentials@v1
         with:
           token: '${{ secrets.GITHUB_TOKEN }}'
-
-      - name: Version
-        run: |
+      - run: |
           npm version patch
           git push origin release --follow-tags
-          
-      - name: Current NPM Package Version
-        id: version
-        uses: pchynoweth/action-get-npm-version@master
 
       - name: Build
         run: |
           npm run prod
           cd dist/test
           zip -r release.zip .
+          
+      - name: Get current version
+        id: version
+        uses: pchynoweth/action-get-npm-version@master
 
       - name: Create Release
         id: create_release

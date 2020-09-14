@@ -48,7 +48,7 @@ jobs:
           
       - name: Current NPM Package Version
         id: version
-        uses: justincy/npm-version-action@2.1.0
+        uses: action-get-npm-version@master
 
       - name: Build
         run: |

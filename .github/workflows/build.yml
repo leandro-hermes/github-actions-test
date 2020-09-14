@@ -28,17 +28,18 @@ jobs:
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
-      - uses: CultureHQ/actions-yarn@v1.0.1
-        with:
-          args: install
-
+      - run: |
+          npm i -g yarn
+          yarn install
+        
       - name: Bump version
         uses: oleksiyrudenko/gha-git-credentials@v1
         with:
           token: '${{ secrets.GITHUB_TOKEN }}'
+          name: 'GitHub Actions'
       - run: |
           npm version patch
-          git push origin release --follow-tags
+          git push --follow-tags
 
       - name: Build
         run: |

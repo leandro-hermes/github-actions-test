@@ -1,25 +1,20 @@
-name: Bump version
-
-on:
+on: 
   push:
-    branches: [ release ]
+    branches:
+      - master
 
 jobs:
-  build:
+  release-on-push:
     runs-on: ubuntu-latest
-
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
-      - uses: actions/checkout@v2
-        
-      - name: Setup Git credentials
-        uses: oleksiyrudenko/gha-git-credentials@v1
+      - id: release
+        uses: rymndhng/release-on-push-action@master
         with:
-          token: '${{ secrets.GITHUB_TOKEN }}'
-          actor: '$GITHUB_ACTOR'
-          name: 'GitHub Actions'
-      
-      - name: Bump version
+          bump_version_scheme: patch
+          
+      - name: Check Output Parameters
         run: |
-          npm version patch
-          git push --follow-tags
-
+          echo "Got tag name ${{ steps.release.outputs.tag_name }}"
+          echo "Got release version ${{ steps.release.outputs.version }}"

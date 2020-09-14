@@ -19,42 +19,42 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-
-      - name: Cache node modules
-        uses: actions/cache@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 10
+      - uses: actions/cache@v1
+        env:
+          cache-name: cache-node-modules
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-node-
-
-      - name: Node ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node-version }}
-
-      - name: Install
-        run: npm install
-
-      # publish to a branch in current repo using GITHUB_TOKEN and other default settings
-      - uses: oleksiyrudenko/gha-git-credentials@v1
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+      - run: |
+          npm i -g yarn
+          yarn install
+        
+      - name: Bump version
+        uses: oleksiyrudenko/gha-git-credentials@v1
         with:
           token: '${{ secrets.GITHUB_TOKEN }}'
-
-      - name: Version
-        run: |
+          actor: '$GITHUB_ACTOR'
+          name: 'GitHub Actions'
+      - run: |
           npm version patch
-          git push origin release --follow-tags
-          
-      - name: Current NPM Package Version
-        id: version
-        uses: action-get-npm-version@master
+          git push --follow-tags
 
       - name: Build
         run: |
           npm run prod
           cd dist/test
           zip -r release.zip .
+          
+      - name: Get current version
+        id: version
+        uses: pchynoweth/action-get-npm-version@master
 
       - name: Create Release
         id: create_release
@@ -62,8 +62,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ steps.version.outputs.version }}
-          release_name: Release ${{ steps.version.outputs.version }}
+          tag_name: v${{ steps.version.outputs.version }}
+          release_name: Release v${{ steps.version.outputs.version }}
           draft: false
           prerelease: false
           

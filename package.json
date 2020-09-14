@@ -1,6 +1,6 @@
 {
   "name": "test",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "scripts": {
     "ng": "node --max_old_space_size=8192 ./node_modules/@angular/cli/bin/ng",
     "start": "ng serve",

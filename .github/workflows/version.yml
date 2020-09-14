@@ -1,0 +1,25 @@
+name: Bump version
+
+on:
+  push:
+    branches: [ release ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        
+      - name: Setup Git credentials
+        uses: oleksiyrudenko/gha-git-credentials@v1
+        with:
+          token: '${{ secrets.GITHUB_TOKEN }}'
+          actor: '$GITHUB_ACTOR'
+          name: 'GitHub Actions'
+      
+      - name: Bump version
+        run: |
+          npm version patch
+          git push --follow-tags
+

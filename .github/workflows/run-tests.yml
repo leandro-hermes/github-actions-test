@@ -1,7 +1,7 @@
 on:
   pull_request:
     branches: [release]
-    types: [opened]
+    types: [opened, synchronize]
     
 name: Run tests
 

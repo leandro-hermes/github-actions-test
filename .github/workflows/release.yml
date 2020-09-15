@@ -6,7 +6,8 @@ on:
 name: Generate release
 
 jobs:
-  generate-release:
+  run:
+    name: Generate release, build assets and upload them
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -56,12 +57,7 @@ jobs:
           npm i -g yarn
           yarn install
           
-  build-for-local-usage:
-    runs-on: ubuntu-latest
-    needs: [generate-release]
-    name: 'Build assets for local usage'
-    steps:
-      - name: Build
+      - name: Build [local]
         run: |
           echo "Setting environment to local..."
           cp src/environments/environment.ts src/environments/environment.prod.ts
@@ -70,42 +66,35 @@ jobs:
           echo "Restoring environment..."
           git checkout src/environments/environment.prod.ts
 
-      - name: Zip files
+      - name: Zip files [local]
         run: |
           cd dist/local
           zip -r ../release-local.zip .
           
-      - name: Upload release asset
-        id: upload-release-asset
+      - name: Upload release asset [local]
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ needs.generate-release.outputs.release-upload-url }}
+          upload_url: ${{ steps.get-release.outputs.upload_url }}
           asset_path: ./dist/release-local.zip
           asset_name: release-local.zip
           asset_content_type: application/zip
           
-  build-for-production-usage:
-    runs-on: ubuntu-latest
-    needs: [generate-release]
-    name: 'Build assets for production usage'
-    steps:
-      - name: Build
+      - name: Build [prod]
         run: yarn prod
 
-      - name: Zip files
+      - name: Zip files [prod]
         run: |
           cd dist/test
           zip -r ../release-prod.zip .
           
-      - name: Upload release asset
-        id: upload-release-asset
+      - name: Upload release asset [prod]
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ needs.generate-release.outputs.release-upload-url }}
+          upload_url: ${{ steps.get-release.outputs.upload_url }}
           asset_path: ./dist/release-prod.zip
           asset_name: release-prod.zip
           asset_content_type: application/zip

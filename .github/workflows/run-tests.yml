@@ -35,7 +35,7 @@ jobs:
           yarn install
           
       - name: Puppeteer
-        run: npm i -g puppeteer
+        run: yarn add -D puppeteer
           
       - name: Test
         env:

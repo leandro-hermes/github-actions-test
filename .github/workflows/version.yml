@@ -1,7 +1,9 @@
 on: 
   push:
     branches:
-      - master
+      - release
+
+name: Generate release
 
 jobs:
   release-on-push:
@@ -14,7 +16,7 @@ jobs:
         with:
           bump_version_scheme: patch
           
-      - name: Check Output Parameters
+      - name: Check output parameters
         run: |
-          echo "Got tag name ${{ steps.release.outputs.tag_name }}"
-          echo "Got release version ${{ steps.release.outputs.version }}"
+          echo "Tag: ${{ steps.release.outputs.tag_name }}"
+          echo "Release: ${{ steps.release.outputs.version }}"

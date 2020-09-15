@@ -41,17 +41,18 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
         
-      - name: Setup GIT token
-        uses: fregante/setup-git-token@v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+#       - name: Setup GIT token
+#         uses: fregante/setup-git-token@v1
+#         with:
+#           token: ${{ secrets.GITHUB_TOKEN }}
         
-      - name: Bump version
-        run: |
-          npm version ${{ needs.release.outputs.new_version }} --no-git-tag-version
-          git add package.json
-          git commit -m "${{ needs.release.outputs.new_version }}"
-          git push --follow-tags
+      - name: Set version
+        run: npm version ${{ needs.release.outputs.new_version }} --no-git-tag-version
+#         run: |
+#           npm version ${{ needs.release.outputs.new_version }} --no-git-tag-version
+#           git add package.json
+#           git commit -m "${{ needs.release.outputs.new_version }}"
+#           git push --follow-tags
 
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path

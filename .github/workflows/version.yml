@@ -24,6 +24,7 @@ jobs:
       - name: Gets latest created release info
         id: latest-release
         uses: jossef/action-latest-release-info@v1.1.0
+        
   build:
     runs-on: ubuntu-latest
     steps:

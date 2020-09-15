@@ -1,6 +1,7 @@
-# Test
+![Generate release](https://github.com/leandro-hermes/github-actions-test/workflows/Generate%20release/badge.svg)
+![Run tests](https://github.com/leandro-hermes/github-actions-test/workflows/Run%20tests/badge.svg)
 
-![](https://github.com/leandro-hermes/github-actions-test/workflows/Build%20release/badge.svg)
+# Test
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.0.1.
 

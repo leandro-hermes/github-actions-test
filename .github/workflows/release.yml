@@ -22,8 +22,8 @@ jobs:
 
       - name: Check output parameters
         run: |
-          echo ${{ format('Tag: release-on-push={0} | latest-release-info: {1}', steps.release.outputs.tag_name, steps.get-release.outputs.tag_name) }}
-          echo ${{ format('Release: release-on-push={0} | latest-release-info: {1}', steps.release.outputs.version, steps.get-release.outputs.name) }}
+          echo ${{ format('Tag: release-on-push={0} | latest-release={1}', steps.release.outputs.tag_name, steps.get-release.outputs.tag_name) }}
+          echo ${{ format('Release: release-on-push={0} | latest-release={1}', steps.release.outputs.version, steps.get-release.outputs.name) }}
 
       - name: Was release generated?
         uses: andymckay/cancel-action@0.2

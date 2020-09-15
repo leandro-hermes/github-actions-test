@@ -6,7 +6,7 @@
     "start": "ng serve",
     "build": "ng build",
     "prod": "npm run ng -- build --prod",
-    "test": "ng test --browsers ChromeHeadlessCI",
+    "test": "ng test --browsers ChromeHeadlessCI --no-watch",
     "lint": "ng lint",
     "e2e": "ng e2e"
   },

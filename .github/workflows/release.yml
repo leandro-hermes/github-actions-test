@@ -6,10 +6,13 @@ on:
 name: Generate release
 
 jobs:
-  generate-release:
+  run:
+    name: Generate release, build assets and upload them
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    outputs:
+      release-upload-url: ${{ steps.get-release.outputs.upload_url }}
     steps:
       - id: release
         uses: rymndhng/release-on-push-action@master
@@ -53,22 +56,45 @@ jobs:
         run: |
           npm i -g yarn
           yarn install
-
-      - name: Build
-        run: yarn prod
-
-      - name: Zip files
+          
+      - name: Build [local]
         run: |
-          cd dist/test
-          zip -r release.zip .
+          echo "Setting environment to local..."
+          cp src/environments/environment.ts src/environments/environment.prod.ts
+          echo "Building..."
+          yarn prod --output-path=dist/local
+          echo "Restoring environment..."
+          git checkout src/environments/environment.prod.ts
 
-      - name: Upload release asset
-        id: upload-release-asset
+      - name: Zip files [local]
+        run: |
+          cd dist/local
+          zip -r ../release-local.zip .
+          
+      - name: Upload release asset [local]
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.get-release.outputs.upload_url }}
-          asset_path: ./dist/test/release.zip
-          asset_name: release.zip
+          asset_path: ./dist/release-local.zip
+          asset_name: release-local.zip
+          asset_content_type: application/zip
+          
+      - name: Build [prod]
+        run: yarn prod
+
+      - name: Zip files [prod]
+        run: |
+          cd dist/test
+          zip -r ../release-prod.zip .
+          
+      - name: Upload release asset [prod]
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.get-release.outputs.upload_url }}
+          asset_path: ./dist/release-prod.zip
+          asset_name: release-prod.zip
           asset_content_type: application/zip

@@ -20,6 +20,10 @@ jobs:
         run: |
           echo "Tag: ${{ steps.release.outputs.tag_name }}"
           echo "Release: ${{ steps.release.outputs.version }}"
+          
+      - name: Gets latest created release info
+        id: latest-release
+        uses: jossef/action-latest-release-info@v1.1.0
   build:
     runs-on: ubuntu-latest
     steps:
@@ -55,12 +59,6 @@ jobs:
         run: |
           cd dist/test
           zip -r release.zip .
-
-      - name: Get release
-        id: release
-        uses: bruceadams/get-release@v1.2.1
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
   
       - name: Upload release asset
         id: upload-release-asset 
@@ -68,7 +66,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.release.outputs.upload_url }}
+          upload_url: ${{ jobs.generate-release.steps.latest-release.outputs.upload_url }}
           asset_path: ./dist/test/release.zip
           asset_name: release.zip
           asset_content_type: application/zip

@@ -3,6 +3,7 @@
 
 if (process.env.CI) {
   process.env.CHROME_BIN = require('puppeteer').executablePath();
+  console.log('CHROME_BIN set', process.env.CHROME_BIN);
 }
 
 module.exports = function (config) {

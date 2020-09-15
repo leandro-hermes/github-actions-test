@@ -23,7 +23,7 @@ jobs:
           
       - name: Was release generated?
         uses: andymckay/cancel-action@0.2
-        if: ${{ steps.release.outputs.version }}
+        if: ${{ !steps.release.outputs.version }}
           
       - name: Gets latest created release info
         id: latest-release

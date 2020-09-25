@@ -17,6 +17,9 @@ jobs:
       - run: npm i -g conventional-changelog
         
       - run: npm version --no-git-tag-version $(git describe --tags --abbrev=0 | cut -d 'v' -f 2)
+        
+      - id: log
+        run: echo "::set-output name=content::$(conventional-changelog -p angular)"
           
       - name: update release
         id: update_release
@@ -24,5 +27,5 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
-          body: ${{ conventional-changelog -p angular }}
+          body: ${{ steps.log.outputs.content }}
           

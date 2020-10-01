@@ -3,12 +3,11 @@
 name: Comments
 
 on:
-  pull_request_review_comment
+  issue_comment
   
 jobs:
   post-to-slack:
     runs-on: ubuntu-latest
     steps:
-      - if: ${{ github.event.action == 'created' }}
-        run: echo "Comment:\ ${{ github.event.comment }}"
+      - run: printf "${{toJson(github.event)}}\n"
      

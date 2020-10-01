@@ -9,5 +9,6 @@ jobs:
   post-to-slack:
     runs-on: ubuntu-latest
     steps:
-      - run: printf "${{toJson(github.event)}}\n"
+      # SLACK_WH_LHN
+      - run: curl -X POST -H 'Content-type: application/json' --data '{"text":"${{toJson(github.event)}}"}' ${{ secrets.SLACK_WH_LHN }}
      

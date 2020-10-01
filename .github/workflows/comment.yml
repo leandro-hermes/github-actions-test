@@ -10,5 +10,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # SLACK_WH_LHN
-      - run: curl -X POST -H 'Content-type: application/json' --data '{"text":"${{toJson(github.event)}}"}' ${{ secrets.SLACK_WH_LHN }}
+      - run: curl -X POST -H 'Content-type:\ application/json' --data '{"text":"${{toJson(github.event)}}"}' ${{ secrets.SLACK_WH_LHN }}
      

@@ -1,0 +1,14 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Comments
+
+on:
+  pull_request_review_comment
+  
+jobs:
+  post-to-slack:
+    runs-on: ubuntu-latest
+    steps:
+      - if: ${{ github.event.action == 'created' }}
+        run: echo "Comment:\ ${{ github.event.comment }}"
+     

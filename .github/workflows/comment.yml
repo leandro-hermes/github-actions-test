@@ -1,0 +1,14 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Comments
+
+on:
+  issue_comment
+  
+jobs:
+  post-to-slack:
+    runs-on: ubuntu-latest
+    steps:
+      # SLACK_WH_LHN
+      - run: curl -X POST -H 'Content-type:\ application/json' --data '{"text":"${{toJson(github.event)}}"}' ${{ secrets.SLACK_WH_LHN }}
+     

@@ -56,5 +56,6 @@ jobs:
 
       - name: Upload file
         run: |
+          cd .github/workflows
           yarn add form-data
           node upload.js

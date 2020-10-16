@@ -1,4 +1,5 @@
 const FormData = require('form-data');
+const http = require('http');
 const fs = require('fs');
 const core = require('@actions/core');
 

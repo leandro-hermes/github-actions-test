@@ -3,7 +3,7 @@ var fs = require('fs');
 var core = require('@actions/core');
 
 var form = new FormData();
-form.append('pull_request', process.argv[0]);
+form.append('pull_request', process.argv[1]);
 form.append('compiled', fs.createReadStream('../../dist/release-prod.zip'));
 const host = '3244127f7252.ngrok.io';
 const path = '/frontendCompiled';

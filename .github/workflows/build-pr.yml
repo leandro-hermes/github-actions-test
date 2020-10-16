@@ -58,4 +58,4 @@ jobs:
         run: |
           cd .github/workflows
           yarn add form-data
-          node upload.js
+          node upload.js '${{ github.event.pull_request }}'

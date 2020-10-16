@@ -10,9 +10,9 @@ jobs:
     name: Builds application
     if: contains(github.event.pull_request.labels.*.name, 'no-deploy') == false && startsWith(github.event.pull_request.head.ref, 'feature/') == true
     steps:
-#      - name: Checkout code
-#        uses: actions/checkout@v2
-#
+      - name: Checkout code
+        uses: actions/checkout@v2
+
 #      - name: Get yarn cache directory path
 #        id: yarn-cache-dir-path
 #        run: echo "::set-output name=dir::$(yarn cache dir)"

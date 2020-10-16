@@ -12,9 +12,9 @@ jobs:
     env:
       HOST: releaser.homolog.gdoorweb.com.br
     steps:
-#      - name: Checkout code
-#        uses: actions/checkout@v2
-#
+      - name: Checkout code
+        uses: actions/checkout@v2
+
 #      - name: Get yarn cache directory path
 #        id: yarn-cache-dir-path
 #        run: echo "::set-output name=dir::$(yarn cache dir)"

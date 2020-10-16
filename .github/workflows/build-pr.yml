@@ -55,4 +55,4 @@ jobs:
           zip -r release-prod.zip .
 
       - name: Upload file
-        run: node test.js
+        run: node upload.js

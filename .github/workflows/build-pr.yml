@@ -58,4 +58,6 @@ jobs:
          touch dist/release-prod.zip
 
       - name: Upload file
-        run: node upload.js
+        run: |
+          ls -lsa
+          node upload.js

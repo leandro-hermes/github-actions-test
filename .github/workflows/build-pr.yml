@@ -44,10 +44,7 @@ jobs:
           search_string: ${{ github.event.pull_request.title }}
 
       - name: Set version
-        env:
-          version: steps.issue.outputs.first_match
-        run: |
-          npm version "0.0.0-$version" --no-git-tag-version
+        run: npm version "0.0.0-${{ steps.issue.outputs.first_match }}" --no-git-tag-version
 
       - name: Build [prod]
         run: yarn prod -- --output-path=dist/

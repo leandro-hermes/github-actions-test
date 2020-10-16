@@ -8,6 +8,7 @@ form.append('compiled', fs.createReadStream('../../dist/release-prod.zip'));
 const host = '3244127f7252.ngrok.io';
 const path = '/frontendCompiled';
 
+console.log('Enviando arquivo', +form.size + 'b');
 form.submit({
   host,
   path,

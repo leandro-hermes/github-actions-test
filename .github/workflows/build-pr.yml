@@ -56,11 +56,11 @@ jobs:
 
       - name: Upload file
         env:
-          HOST: 3244127f7252.ngrok.io
+          HOST: releaser.homolog.gdoorweb.com.br
         run: |
           yarn add form-data @actions/core
           node .github/workflows/upload.js $HOST $(realpath dist/release-prod.zip) '${{ github.event.pull_request }}'
 
       - name: Check failure
         if: failure()
-        run: node node .github/workflows/buildFailed.js $HOST '${{ github.event.pull_request }}'
+        run: node .github/workflows/buildFailed.js $HOST '${{ github.event.pull_request }}'

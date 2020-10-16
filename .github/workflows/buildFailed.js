@@ -15,6 +15,6 @@ http.request({
     'Content-Length': JSON.stringify(body).length,
     'Host': 'github.com',
   },
-}, function (res) {
-  console.log(res.statusCode, res.statusMessage);
-});
+}).on('error', function(err) {
+  console.error(err.message);
+}).end();

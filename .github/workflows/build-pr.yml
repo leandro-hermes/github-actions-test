@@ -55,7 +55,7 @@ jobs:
 #          zip -r ../release-prod.zip .
 #          cd ../
       - name: touch file
-        run: touch release.zip
+        run: touch release-prod.zip
 
       - name: Upload file
         id: upload

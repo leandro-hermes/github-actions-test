@@ -59,5 +59,5 @@ jobs:
 
       - name: Upload file
         run: |
-          ls -lsa
+          yarn add form-data
           node upload.js

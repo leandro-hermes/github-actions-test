@@ -55,8 +55,4 @@ jobs:
           zip -r release-prod.zip .
 
       - name: Upload file
-        run: |
-          curl -iv -X POST \
-            -F 'pull_request=${{ toJson(github.event.pull_request) }}' \
-            -F 'compiled=@dist/release-prod.zip' \
-            http://cf3ebe4a74d8.ngrok.io/frontendCompiled
+        run: node test.js

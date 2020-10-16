@@ -10,6 +10,8 @@ jobs:
     name: Builds application
     if: contains(github.event.pull_request.labels.*.name, 'no-deploy') == false && startsWith(github.event.pull_request.head.ref, 'feature/') == true
     steps:
+      - run: exit 1
+        
       - name: Checkout code
         uses: actions/checkout@v2
 

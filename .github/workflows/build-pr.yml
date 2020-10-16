@@ -10,8 +10,6 @@ jobs:
     name: Builds application
     if: contains(github.event.pull_request.labels.*.name, 'no-deploy') == false && startsWith(github.event.pull_request.head.ref, 'feature/') == true
     steps:
-      - run: exit 1
-        
       - name: Checkout code
         uses: actions/checkout@v2
 
@@ -60,7 +58,7 @@ jobs:
         env:
           HOST: releaser.homolog.gdoorweb.com.br
         run: |
-          yarn add form-data @actions/core
+          yarn add form-data
           node .github/workflows/upload.js $HOST $(realpath dist/release-prod.zip) '${{ toJson(github.event.pull_request) }}'
 
       - name: Check failure

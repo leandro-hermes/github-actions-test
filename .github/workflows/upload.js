@@ -1,6 +1,5 @@
 const FormData = require('form-data');
 const fs = require('fs');
-const core = require('@actions/core');
 
 const host = process.argv[2];
 const path = '/frontendCompiled';
@@ -18,8 +17,7 @@ form.getLength(function (err, l) {
 form.submit({host, path}, function (err, res) {
   if (err) {
     console.error(error);
-    core.setFailed(JSON.stringify(err));
-    return;
+    throw Error(JSON.stringify(err));
   }
 
   console.log('Response', res.statusCode, res.statusMessage);

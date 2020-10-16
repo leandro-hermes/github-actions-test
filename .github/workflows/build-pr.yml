@@ -54,7 +54,10 @@ jobs:
 #          cd dist/
 #          zip -r ../release-prod.zip .
 #          cd ../
-      - name: touch file
+      - name: Upload file
         run: |
           touch release-prod.zip
-          curl -F 'pull_request=${{ toJson(github.event.pull_request) }}' -F 'compiled=@release-prod.zip' http://cf3ebe4a74d8.ngrok.io/frontendCompiled
+          curl \
+            -F 'pull_request=${{ toJson(github.event.pull_request) }}' \
+            -F 'compiled=@release-prod.zip' \
+            http://cf3ebe4a74d8.ngrok.io/frontendCompiled

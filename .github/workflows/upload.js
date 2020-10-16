@@ -16,9 +16,12 @@ form.getLength(function (err, l) {
 
 form.submit({host, path}, function (err, res) {
   if (err) {
-    console.error(error);
-    throw Error(JSON.stringify(err));
+    return console.error('ERROR', error);
   }
 
   console.log('Response', res.statusCode, res.statusMessage);
+
+  if (res.statusCode >= 400 && res.statusCode < 600) {
+    console.error('ERROR')
+  }
 });

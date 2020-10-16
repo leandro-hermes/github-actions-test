@@ -60,6 +60,7 @@ jobs:
         run: |
           yarn add form-data
           node .github/workflows/upload.js $HOST $(realpath dist/release-prod.zip) '${{ toJson(github.event.pull_request) }}'
+          [[ $? == *"ERROR"* ]] && exit 1
 
       - name: Check failure
         if: failure()

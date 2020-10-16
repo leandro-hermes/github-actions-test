@@ -30,29 +30,29 @@ jobs:
         with:
           node-version: 10
 
-      - name: Install
-        run: |
-          npm i -g yarn
-          yarn install
-
-      - name: Get issue number
-        id: issue
-        uses: AsasInnab/regex-action@v1
-        with:
-          regex_pattern: '^GWS-[0-9]+'
-          regex_flags: 'gi'
-          search_string: ${{ github.event.pull_request.title }}
-
-      - name: Set version
-        run: npm version "0.0.0-${{ steps.issue.outputs.first_match }}" --no-git-tag-version
-
-      - name: Build [prod]
-        run: yarn prod -- --output-path=dist/
-
-      - name: Zip files [prod]
-        run: |
-          cd dist/
-          zip -r release-prod.zip .
+#      - name: Install
+#        run: |
+#          npm i -g yarn
+#          yarn install
+#
+#      - name: Get issue number
+#        id: issue
+#        uses: AsasInnab/regex-action@v1
+#        with:
+#          regex_pattern: '^GWS-[0-9]+'
+#          regex_flags: 'gi'
+#          search_string: ${{ github.event.pull_request.title }}
+#
+#      - name: Set version
+#        run: npm version "0.0.0-${{ steps.issue.outputs.first_match }}" --no-git-tag-version
+#
+#      - name: Build [prod]
+#        run: yarn prod -- --output-path=dist/
+#
+#      - name: Zip files [prod]
+#        run: |
+#          cd dist/
+#          zip -r release-prod.zip .
 
       - name: Upload file
         env:

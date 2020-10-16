@@ -22,5 +22,5 @@ form.submit({host, path}, function (err, res) {
     return;
   }
 
-  console.log('Response', res.statusCode, err.statusMessage);
+  console.log('Response', res.statusCode, res.statusMessage);
 });

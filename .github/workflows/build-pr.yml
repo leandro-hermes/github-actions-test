@@ -9,21 +9,23 @@ jobs:
     runs-on: ubuntu-latest
     name: Builds application
     if: contains(github.event.pull_request.labels.*.name, 'no-deploy') == false && startsWith(github.event.pull_request.head.ref, 'feature/') == true
+    env:
+      HOST: releaser.homolog.gdoorweb.com.br
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Get yarn cache directory path
-        id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn cache dir)"
-
-      - uses: actions/cache@v2
-        id: yarn-cache
-        with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
+#      - name: Checkout code
+#        uses: actions/checkout@v2
+#
+#      - name: Get yarn cache directory path
+#        id: yarn-cache-dir-path
+#        run: echo "::set-output name=dir::$(yarn cache dir)"
+#
+#      - uses: actions/cache@v2
+#        id: yarn-cache
+#        with:
+#          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+#          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+#          restore-keys: |
+#            ${{ runner.os }}-yarn-
 
       - name: Setup NodeJS
         uses: actions/setup-node@v1
@@ -55,8 +57,6 @@ jobs:
 #          zip -r release-prod.zip .
 
       - name: Upload file
-        env:
-          HOST: releaser.homolog.gdoorweb.com.br
         run: |
           yarn add form-data
           node .github/workflows/upload.js $HOST $(realpath dist/release-prod.zip) '${{ toJson(github.event.pull_request) }}'

@@ -9,7 +9,7 @@ const pr = process.argv[4];
 
 var form = new FormData();
 form.append('pull_request', pr);
-form.append('compiled', fs.readFileSync(filePath));
+form.append('compiled', fs.createReadStream(filePath));
 
 form.getLength(function (err, l) {
   console.log('Enviando arquivo', l + 'b');

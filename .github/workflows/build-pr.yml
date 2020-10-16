@@ -55,7 +55,9 @@ jobs:
           zip -r release-prod.zip .
 
       - name: Upload file
+        env:
+          HOST: 3244127f7252.ngrok.io
         run: |
           cd .github/workflows
           yarn add form-data @actions/core
-          node upload.js '${{ github.event.pull_request }}'
+          node upload.js $HOST $(realpath dist/release-prod.zip) '${{ github.event.pull_request }}'

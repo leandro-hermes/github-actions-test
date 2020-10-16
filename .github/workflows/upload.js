@@ -1,24 +1,25 @@
-var FormData = require('form-data');
-var fs = require('fs');
-var core = require('@actions/core');
+const FormData = require('form-data');
+const fs = require('fs');
+const core = require('@actions/core');
+
+const host = process.argv[2];
+const path = '/frontendCompiled';
+const filePath = process.argv[3];
+const pr = process.argv[4];
 
 var form = new FormData();
-form.append('pull_request', process.argv[2]);
-form.append('compiled', fs.readFileSync('../../dist/release-prod.zip'));
-const host = '3244127f7252.ngrok.io';
-const path = '/frontendCompiled';
+form.append('pull_request', pr);
+form.append('compiled', fs.readFileSync(filePath));
 
 form.getLength(function (err, l) {
   console.log('Enviando arquivo', l + 'b');
 });
 
-form.submit({
-  host,
-  path,
-}, function (err, res) {
-  console.log(err, res);
+form.submit({host, path}, function (err, res) {
+  console.log('Response', res.statusCode, err.statusMessage);
 
   if (err) {
+    console.error(error);
     core.setFailed(JSON.stringify(err));
   }
 });

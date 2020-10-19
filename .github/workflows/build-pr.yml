@@ -71,7 +71,7 @@ jobs:
           echo "::set-output name=path::$(realpath dist/release-prod.zip)"
 
       - name: Upload file via HTTP
-        uses: leandro-hermes/action-upload-file@v1.0.0
+        uses: ./.github/actions/upload-file
         with:
           host: ${{ secrets.RELEASER_HOST }}
           path: '/frontendCompiled'

@@ -49,7 +49,7 @@ jobs:
         id: issue
         uses: AsasInnab/regex-action@v1
         with:
-          regex_pattern: '^(GWS)-[\d]+'
+          regex_pattern: '\bGW(S)?-[\d]+\b'
           regex_flags: 'gi'
           search_string: ${{ github.event.pull_request.title }}
 

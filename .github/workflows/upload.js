@@ -6,7 +6,7 @@ const path = '/frontendCompiled';
 const filePath = process.argv[3];
 const pr = process.argv[4];
 
-var form = new FormData();
+const form = new FormData();
 form.append('pull_request', pr);
 form.append('compiled', fs.createReadStream(filePath));
 

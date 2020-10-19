@@ -66,8 +66,10 @@ jobs:
 
       - name: Upload file
         run: |
+          FILE=$(realpath dist/release-prod.zip)
+          [ ! -f dist/release-prod.zip ] && echo "File not found [$FILE]" && exit 1
           yarn add form-data
-          node .github/workflows/upload.js $HOST $(realpath dist/release-prod.zip) '${{ toJson(github.event.pull_request) }}'
+          node .github/workflows/upload.js $HOST $FILE '${{ toJson(github.event.pull_request) }}'
           [[ $? == *"ERROR"* ]] && exit 1
 
       - name: Check failure

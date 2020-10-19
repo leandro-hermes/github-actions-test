@@ -73,7 +73,7 @@ jobs:
       - name: Upload file via HTTP
         uses: ./.github/actions/upload-file
         with:
-          host: ${{ secrets.RELEASER_HOST }}
+          host: releaser.homolog.gdoorweb.com.br
           path: '/frontendCompiled'
           filePath: ${{ steps.file.outputs.path }}
           data: ${{ toJson(github.event.pull_request) }}

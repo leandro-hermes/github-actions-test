@@ -11,7 +11,7 @@ jobs:
     if: |
       contains(github.event.pull_request.labels.*.name, 'no-deploy') == false &&
       github.event.pull_request.draft == false &&
-      contains(fromJson("['develop', 'main', 'master']"), github.event.pull_request.base.ref) == true &&
+      contains(fromJson('["develop", "main", "master"]'), github.event.pull_request.base.ref) == true &&
       (
         startsWith(github.event.pull_request.head.ref, 'feature/') == true ||
         startsWith(github.event.pull_request.head.ref, 'bugfix/') == true ||

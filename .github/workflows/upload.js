@@ -1,10 +1,10 @@
 const FormData = require('form-data');
 const fs = require('fs');
 
-const host = process.argv[1];
+const host = process.argv[2];
 const path = '/frontendCompiled';
-const filePath = process.argv[2];
-const pr = process.argv[3];
+const filePath = process.argv[3];
+const pr = process.argv[4];
 
 try {
   fs.existsSync(filePath);

@@ -17,7 +17,7 @@ form.append('pull_request', pr);
 form.append('compiled', fs.createReadStream(filePath));
 
 form.getLength(function (err, l) {
-  console.log('Enviando arquivo', l + 'b');
+  console.log('Sending file, size:', l + 'b');
 });
 
 form.submit({host, path}, function (err, res) {
@@ -28,6 +28,6 @@ form.submit({host, path}, function (err, res) {
   console.log('Response', res.statusCode, res.statusMessage);
 
   if (res.statusCode >= 400 && res.statusCode < 600) {
-    console.error('ERROR')
+    console.error('ERROR');
   }
 });

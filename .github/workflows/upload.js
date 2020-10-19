@@ -8,6 +8,7 @@ const pr = process.argv[4];
 
 try {
   fs.existsSync(filePath);
+  console.info('File found', filePath);
 } catch (e) {
   return console.error('ERROR: file not found:', filePath);
 }

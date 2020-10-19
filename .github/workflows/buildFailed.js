@@ -1,8 +1,8 @@
 const http = require('http');
 
-const host = process.argv[1];
+const host = process.argv[2];
 const path = '/frontendCompiled/error';
-const body = {pull_request: process.argv[2]};
+const body = {pull_request: process.argv[3]};
 
 console.debug('Host', host);
 

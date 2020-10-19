@@ -23,7 +23,7 @@ form.getLength(function (err, l) {
 
 form.submit({host, path}, function (err, res) {
   if (err) {
-    return console.error('ERROR', error);
+    return console.error('ERROR', err);
   }
 
   console.log('Response', res.statusCode, res.statusMessage);

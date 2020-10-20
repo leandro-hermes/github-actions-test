@@ -79,7 +79,7 @@ jobs:
       - name: Check failure
         if: failure()
         run: |
-          curl -iv -X POST \
+          curl -X POST \
             -H "Content-Type: application/json" \
-            -D '{"data":"foo"}' \
+            -D '{"pull_request":${{ toJson(github.event.pull_request) }} }' \
             releaser.homolog.gdoorweb.com.br/frontendCompiled/error

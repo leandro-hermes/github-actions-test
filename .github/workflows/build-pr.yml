@@ -17,8 +17,6 @@ jobs:
         startsWith(github.event.pull_request.head.ref, 'bugfix/') == true ||
         startsWith(github.event.pull_request.head.ref, 'hotfix/') == true
       )
-    env:
-      HOST: ${{ secrets.RELEASER_HOST }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -80,4 +78,8 @@ jobs:
 
       - name: Check failure
         if: failure()
-        run: node .github/workflows/buildFailed.js $HOST '${{ toJson(github.event.pull_request) }}'
+        run: |
+          curl -iv -X POST \
+            -H "Content-Type: application/json" \
+            -D '{"data":"foo"}' \
+            releaser.homolog.gdoorweb.com.br/frontendCompiled/error

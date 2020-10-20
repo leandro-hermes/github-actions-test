@@ -81,5 +81,5 @@ jobs:
         run: |
           curl -X POST \
             -H "Content-Type: application/json" \
-            -D '{"pull_request":${{ toJson(github.event.pull_request) }} }' \
+            --data-raw '{"pull_request":${{ toJson(github.event.pull_request) }} }' \
             releaser.homolog.gdoorweb.com.br/frontendCompiled/error

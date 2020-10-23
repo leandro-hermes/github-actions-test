@@ -77,12 +77,20 @@ jobs:
         uses: koraykoska/s3-upload-github-action@master
         env:
           FILE: ${{ steps.file.outputs.path }}
-          S3_PREFIX: releaser
-          S3_ENDPOINT: s3.us-east-1.amazonaws.com
-          S3_BUCKET: gdoor-web-frontend-compiled
+          S3_PREFIX: compiled
+          S3_ENDPOINT: s3.sa-east-1.amazonaws.com
+          S3_BUCKET: gdoor-releaser
           S3_ACCESS_KEY_ID: ${{ secrets.S3_KEY_ID }}
           S3_SECRET_ACCESS_KEY: ${{ secrets.S3_SECRET_KEY }}
 
+      - name: Notify Releaser
+        run: |
+          curl -X POST \
+            -H "Content-Type: application/json" \
+            --data-raw '{"pull_request":${{ toJson(github.event.pull_request) }} }' \
+            0344d4260a17.ngrok.io/frontendCompiled
+#            releaser.homolog.gdoorweb.com.br/frontendCompiled
+         
 #      - name: Check failure
 #        if: failure()
 #        run: |

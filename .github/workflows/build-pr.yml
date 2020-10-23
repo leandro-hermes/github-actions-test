@@ -67,8 +67,7 @@ jobs:
           issue=GWS-123
           echo "Creating directory $issue"
           mkdir $issue
-          sha=${{ github.event.pull_request.head.sha }}
-          path="$issue/release-prod-$sha.zip"
+          path="$issue/release-prod.zip"
           echo "Moving compiled file to $path"
           mv dist/release-prod.zip $path
           echo "::set-output name=path::$path"

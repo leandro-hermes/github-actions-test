@@ -67,7 +67,8 @@ jobs:
         run: |
           issue=GWS-123
           mkdir $issue
-          path="$issue/release-prod.zip"
+          path="$issue/release-prod-$sha.zip"
+          sha=${{ github.event.pull_request.head.sha }}
           mv dist/release-prod.zip $path
           echo "::set-output name=path::$path"
 

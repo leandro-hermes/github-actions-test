@@ -62,11 +62,12 @@ jobs:
 #          cd dist/
 #          zip -r release-prod.zip .
 #
-      - name: Export the full file path
+      - name: Move the file
         id: file
         run: |
-          [ ! -f dist/release-prod.zip ] && echo "File not found [$FILE]" && exit 1
-          echo "::set-output name=path::$(realpath dist/release-prod.zip)"
+          path=GWS-123/release-prod.zip
+          mv dist/release-prod.zip $path
+          echo "::set-output name=path::$path"
 
       - name: Upload file to bucket
         uses: koraykoska/s3-upload-github-action@master

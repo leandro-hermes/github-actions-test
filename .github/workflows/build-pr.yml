@@ -65,7 +65,9 @@ jobs:
       - name: Move the file
         id: file
         run: |
-          path=GWS-123/release-prod.zip
+          issue=GWS-123
+          mkdir $issue
+          path="$issue/release-prod.zip"
           mv dist/release-prod.zip $path
           echo "::set-output name=path::$path"
 

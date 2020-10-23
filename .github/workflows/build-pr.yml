@@ -77,8 +77,8 @@ jobs:
           FILE: ${{ steps.file.outputs.path }}
           S3_ENDPOINT: s3.us-east-1.amazonaws.com
           S3_BUCKET: gdoor-web-frontend-compiled
-          S3_ACCESS_KEY_ID: AKIARUTUNM6ZS44JPPWH
-          S3_SECRET_ACCESS_KEY: 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
+          S3_ACCESS_KEY_ID: ${{ secrets.S3_KEY_ID }}
+          S3_SECRET_ACCESS_KEY: ${{ secrets.S3_SECRET_KEY }}
 
 #      - name: Check failure
 #        if: failure()

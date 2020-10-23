@@ -68,14 +68,6 @@ jobs:
           [ ! -f dist/release-prod.zip ] && echo "File not found [$FILE]" && exit 1
           echo "::set-output name=path::$(realpath dist/release-prod.zip)"
 
-      - name: Upload file via HTTP
-        uses: ./.github/actions/upload-file
-        with:
-          host: releaser.homolog.gdoorweb.com.br
-          path: '/frontendCompiled'
-          filePath: ${{ steps.file.outputs.path }}
-          data: ${{ toJson(github.event.pull_request) }}
-          
       - name: Upload file to bucket
         uses: koraykoska/s3-upload-github-action@master
         env:

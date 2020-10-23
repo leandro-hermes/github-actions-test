@@ -21,47 +21,47 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Get yarn cache directory path
-        id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn cache dir)"
-
-      - uses: actions/cache@v2
-        id: yarn-cache
-        with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
-
-      - name: Setup NodeJS
-        uses: actions/setup-node@v1
-        with:
-          node-version: 10
-
-      - name: Install
-        run: |
-          npm i -g yarn
-          yarn install
-
-      - name: Get issue number
-        id: issue
-        uses: AsasInnab/regex-action@v1
-        with:
-          regex_pattern: '\bGW(S)?-[\d]+\b'
-          regex_flags: 'gi'
-          search_string: ${{ github.event.pull_request.title }}
-
-      - name: Set version
-        run: npm version "0.0.0-${{ steps.issue.outputs.first_match }}" --no-git-tag-version
-
-      - name: Build [prod]
-        run: yarn prod -- --output-path=dist/
-
-      - name: Zip files [prod]
-        run: |
-          cd dist/
-          zip -r release-prod.zip .
-
+#      - name: Get yarn cache directory path
+#        id: yarn-cache-dir-path
+#        run: echo "::set-output name=dir::$(yarn cache dir)"
+#
+#      - uses: actions/cache@v2
+#        id: yarn-cache
+#        with:
+#          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+#          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+#          restore-keys: |
+#            ${{ runner.os }}-yarn-
+#
+#      - name: Setup NodeJS
+#        uses: actions/setup-node@v1
+#        with:
+#          node-version: 10
+#
+#      - name: Install
+#        run: |
+#          npm i -g yarn
+#          yarn install
+#
+#      - name: Get issue number
+#        id: issue
+#        uses: AsasInnab/regex-action@v1
+#        with:
+#          regex_pattern: '\bGW(S)?-[\d]+\b'
+#          regex_flags: 'gi'
+#          search_string: ${{ github.event.pull_request.title }}
+#
+#      - name: Set version
+#        run: npm version "0.0.0-${{ steps.issue.outputs.first_match }}" --no-git-tag-version
+#
+#      - name: Build [prod]
+#        run: yarn prod -- --output-path=dist/
+#
+#      - name: Zip files [prod]
+#        run: |
+#          cd dist/
+#          zip -r release-prod.zip .
+#
       - name: Export the full file path
         id: file
         run: |
@@ -75,11 +75,20 @@ jobs:
           path: '/frontendCompiled'
           filePath: ${{ steps.file.outputs.path }}
           data: ${{ toJson(github.event.pull_request) }}
+          
+      - name: Upload file to bucket
+        uses: koraykoska/s3-upload-github-action@master
+        env:
+          FILE: ${{ steps.file.outputs.path }}
+          S3_ENDPOINT: s3.us-east-1.amazonaws.com
+          S3_BUCKET: gdoor-web-frontend-compiled
+          S3_ACCESS_KEY_ID: AKIARUTUNM6ZS44JPPWH
+          S3_SECRET_ACCESS_KEY: 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
 
-      - name: Check failure
-        if: failure()
-        run: |
-          curl -X POST \
-            -H "Content-Type: application/json" \
-            --data-raw '{"pull_request":${{ toJson(github.event.pull_request) }} }' \
-            releaser.homolog.gdoorweb.com.br/frontendCompiled/error
+#      - name: Check failure
+#        if: failure()
+#        run: |
+#          curl -X POST \
+#            -H "Content-Type: application/json" \
+#            --data-raw '{"pull_request":${{ toJson(github.event.pull_request) }} }' \
+#            releaser.homolog.gdoorweb.com.br/frontendCompiled/error

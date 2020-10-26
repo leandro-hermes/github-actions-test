@@ -1,7 +1,7 @@
 on:
   push:
-    branches:
-      - release
+    tags:
+      - 'v*'
 
 name: Generate release
 
@@ -12,26 +12,26 @@ jobs:
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     outputs:
-      release-upload-url: ${{ steps.get-release.outputs.upload_url }}
-      new_version: ${{ steps.release.outputs.version }}
+      release-upload-url: ${{ steps.create_release.outputs.upload_url }}
+      new_version: ${{ steps.version.outputs.first_match }}
     steps:
-      - id: release
-        uses: rymndhng/release-on-push-action@master
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
         with:
-          bump_version_scheme: patch
-
-      - name: Gets latest created release info
-        id: get-release
-        uses: jossef/action-latest-release-info@v1.1.0
-
-      - name: Check output parameters
-        run: |
-          echo ${{ format('Tag: release-on-push={0} \| latest-release={1}', steps.release.outputs.tag_name, steps.get-release.outputs.tag_name) }}
-          echo ${{ format('Release: release-on-push={0} \| latest-release={1}', steps.release.outputs.version, steps.get-release.outputs.name) }}
-
-      - name: Need to stop?
-        uses: andymckay/cancel-action@0.2
-        if: ${{ !steps.release.outputs.version }}
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          body: New tag ${{ github.ref }}
+          draft: false
+          prerelease: false
+          
+      - name: Get issue number
+        id: version
+        uses: AsasInnab/regex-action@v1
+        with:
+          regex_pattern: '\d+\.\d+\.\d+'
+          regex_flags: 'gi'
+          search_string: ${{ github.ref }}
         
   build:
     runs-on: ubuntu-latest
@@ -41,18 +41,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
         
-#       - name: Setup GIT token
-#         uses: fregante/setup-git-token@v1
-#         with:
-#           token: ${{ secrets.GITHUB_TOKEN }}
-        
       - name: Set version
         run: npm version ${{ needs.release.outputs.new_version }} --no-git-tag-version
-#         run: |
-#           npm version ${{ needs.release.outputs.new_version }} --no-git-tag-version
-#           git add package.json
-#           git commit -m "${{ needs.release.outputs.new_version }}"
-#           git push --follow-tags
 
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
@@ -95,7 +85,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-#           upload_url: ${{ steps.get-release.outputs.upload_url }}
           upload_url: ${{ needs.release.outputs.release-upload-url }}
           asset_path: ./dist/release-local.zip
           asset_name: release-local.zip

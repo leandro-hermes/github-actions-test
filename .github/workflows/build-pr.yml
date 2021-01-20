@@ -57,11 +57,10 @@ jobs:
         run: |
           cd dist/
           zip -r ../release-prod.zip .
-
-      - name: Upload file
-        id: upload
-        uses: JantHsueh/upload-file-action@master
+          
+      - name: Upload file via HTTP
+        uses: leandro-hermes/action-upload-file@v1.0.2
         with:
-          url: http://cf3ebe4a74d8.ngrok.io/frontendCompiled
-          forms: ${{ fromJson(github.event.pull_request) }}
-          fileForms: '{"file":"./dist/release-prod.zip"}'
+          host: http://localhost
+          path: /file
+          filePath: file.zip

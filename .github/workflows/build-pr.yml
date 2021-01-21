@@ -58,7 +58,7 @@ jobs:
           zip -r ../release-prod.zip .
           
       - name: Upload file via HTTP
-        uses: leandro-hermes/action-upload-file@v1.0.2
+        uses: leandro-hermes/action-upload-file@v1.1.0
         with:
           host: localhost
           https: true

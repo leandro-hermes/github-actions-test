@@ -60,6 +60,7 @@ jobs:
       - name: Upload file via HTTP
         uses: leandro-hermes/action-upload-file@v1.0.2
         with:
-          host: http://localhost
+          host: localhost
+          https: true
           path: /file
           filePath: file.zip

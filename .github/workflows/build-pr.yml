@@ -55,7 +55,7 @@ jobs:
       - name: Zip files [prod]
         run: |
           cd dist/
-          zip -r ../release-prod.zip .
+          zip -qr ../release-prod.zip .
           
       - name: Upload file via HTTP
         uses: leandro-hermes/action-upload-file@v1.1.0
@@ -63,4 +63,4 @@ jobs:
           host: localhost
           https: true
           path: /file
-          filePath: file.zip
+          filePath: release-prod.zip

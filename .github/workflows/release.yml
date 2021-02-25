@@ -1,6 +1,6 @@
 on:
   pull_request:
-    types: [ opened ]
+    types: [ opened, synchronize ]
 
 name: Generate release
 
@@ -9,4 +9,4 @@ jobs:
     name: Generate release
     runs-on: ubuntu-latest
     steps:
-      - run: echo ${{ github.event.pull_request }}
+      - run: echo ${{ toJson(github.event.pull_request) }}

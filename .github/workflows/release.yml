@@ -9,5 +9,4 @@ jobs:
     name: Generate release
     runs-on: ubuntu-latest
     steps:
-      - run: |
-          echo ${{ toJson(github.event.pull_request) }}
+      - run: echo "${{ toJson(github.event.pull_request) }}"
